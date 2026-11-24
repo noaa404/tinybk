@@ -1,0 +1,5 @@
+/tinybk
+/bk
+/.tinybk/
+*.test
+.DS_Store

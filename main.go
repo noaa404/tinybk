@@ -654,12 +654,6 @@ func (e *env) prepare() (err error) {
 		if len(pages) == 0 {
 			return fmt.Errorf("browser has no page tabs (start it with at least one about:blank)")
 		}
-		// Attach before resolving the target to preserve old behavior and shorten the window where a target can be closed after lookup.
-		s, err := Connect(e.g.cdpURL, pages[0].ID, 0, false)
-		if err != nil {
-			return err
-		}
-		e.s = s
 		if e.spec.lock.lockTarget {
 			p, err := resolveTarget(pages, e.args[e.spec.lock.targetArg])
 			if err != nil {
@@ -681,6 +675,35 @@ func (e *env) prepare() (err error) {
 			}
 			e.locks = append(e.locks, l)
 		}
+
+		// Acquire lifecycle locks before attaching. Otherwise a concurrent tinybk tab close
+		// can remove the page we are attaching to between listPages and the first CDP call.
+		sessionPages, err := listPages(e.g.cdpURL)
+		if err != nil {
+			return fmt.Errorf("connect %s: %w", e.g.cdpURL, err)
+		}
+		if len(sessionPages) == 0 {
+			return fmt.Errorf("browser has no page tabs (start it with at least one about:blank)")
+		}
+		sessionTarget := sessionPages[0].ID
+		switch {
+		case e.page != nil && !e.spec.lock.browser:
+			// tab activate locks the target, so it is safe to attach directly to it.
+			sessionTarget = e.page.ID
+		case e.page != nil && e.spec.lock.browser:
+			// tab close should not use the page it is about to close as its only CDP session.
+			for _, p := range sessionPages {
+				if p.ID != e.page.ID {
+					sessionTarget = p.ID
+					break
+				}
+			}
+		}
+		s, err := Connect(e.g.cdpURL, sessionTarget, 0, false)
+		if err != nil {
+			return err
+		}
+		e.s = s
 	}
 	return nil
 }

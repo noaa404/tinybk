@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Task 5</title></head>
+<body>
+<h1>Order Flow</h1>
+<button id="start">Start order</button>
+<div id="form" style="display:none">
+  <label>Name <input id="name"></label>
+  <label>Email <input id="email"></label>
+  <label>Plan <input id="plan"></label>
+  <button id="submit">Submit order</button>
+</div>
+<div id="result"></div>
+<script>
+const run = new URLSearchParams(location.search).get('run') || '';
+fetch('/event?task=task5&event=view&run=' + encodeURIComponent(run));
+document.getElementById('start').addEventListener('click', () => {
+  fetch('/event?task=task5&event=started&run=' + encodeURIComponent(run));
+  document.getElementById('form').style.display = 'block';
+  document.getElementById('start').style.display = 'none';
+});
+document.getElementById('submit').addEventListener('click', () => {
+  const n = document.getElementById('name').value;
+  const e = document.getElementById('email').value;
+  const p = document.getElementById('plan').value;
+  fetch('/event?task=task5&event=submitted&run=' + encodeURIComponent(run) + '&name=' + encodeURIComponent(n) + '&email=' + encodeURIComponent(e) + '&plan=' + encodeURIComponent(p));
+  document.getElementById('result').textContent = 'ORDER-LONG-7721';
+});
+</script>
+</body></html>

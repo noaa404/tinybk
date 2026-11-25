@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Task 3</title></head>
+<body>
+<h1>Profile Form</h1>
+<label>Name <input id="name"></label>
+<label>Email <input id="email"></label>
+<label>Notes <input id="notes"></label>
+<button id="submit">Submit</button>
+<p>Status: <strong id="status">PENDING</strong></p>
+<script>
+const run = new URLSearchParams(location.search).get('run') || '';
+fetch('/event?task=task3&event=view&run=' + encodeURIComponent(run));
+document.getElementById('submit').addEventListener('click', () => {
+  const n = document.getElementById('name').value;
+  const e = document.getElementById('email').value;
+  const t = document.getElementById('notes').value;
+  fetch('/event?task=task3&event=submitted&run=' + encodeURIComponent(run) + '&name=' + encodeURIComponent(n) + '&email=' + encodeURIComponent(e) + '&notes=' + encodeURIComponent(t));
+  document.getElementById('status').textContent = 'SUBMITTED';
+});
+</script>
+</body></html>

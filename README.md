@@ -172,6 +172,39 @@ Useful details:
 - `click`, `type`, `press`, and `drag` require the target tab to be visible and in the foreground.
 - `label=` in `click` is a text query, not an element type. It matches `aria-label`, `innerText`, `value`, `placeholder`, and `title`; exact matches beat prefixes.
 
+## Benchmarks
+
+Two benchmarks are included:
+
+- **Runtime benchmark**: deterministic CLI latency, output size, and correctness
+  checks against the real binary. No model API is required. Run with
+  `BK_BENCH=1 go test -run '^TestRuntimeBenchmark$' -count=1 -v`.
+- **Agent-loop benchmark**: multi-step browser tasks through a fresh agent
+  session, measuring tokens, cost, API/tool calls, and wall time. It requires a
+  model provider and is run manually, not in required CI.
+
+Current agent-loop MVP across 6 local tasks × 3 repetitions per lane
+(pi 1.6.0, DeepSeek `deepseek-flash`, tinybk 9d7815e, PinchTab 0.15.2,
+Chromium 158):
+
+| Metric | tinybk | PinchTab |
+|---|---:|---:|
+| Success | 18/18 | 18/18 |
+| Total tokens | 98,965 | 134,816 |
+| Median tokens/run | 4,724 | 6,968 |
+| Total cost | $0.01074 | $0.01330 |
+| API calls | 70 | 91 |
+| Tool calls | 52 | 74 |
+| Median wall time | 4.31s | 5.99s |
+
+Both lanes were driven through minimal command wrappers written for this
+benchmark. The PinchTab guide is not an official recommendation and does not
+exercise its full feature set. These are directional results for the tested
+tasks and environment, not a general product ranking. See
+[benchmark/README.md](benchmark/README.md) for methodology and full results.
+**Additional test cases, independent runs, and corrections are welcome** via
+[GitHub issues](https://github.com/noaa404/tinybk/issues).
+
 ## Multiple browsers and agents
 
 `tinybk` is one binary; each invocation is its own process. To isolate agents,

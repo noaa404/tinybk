@@ -1021,6 +1021,8 @@ func TestRefIdentity(t *testing.T) {
 }
 
 func TestEval(t *testing.T) {
+	loadPage1(t)
+
 	if v := evalRaw(t, "1+1"); v != float64(2) {
 		t.Fatalf("eval 1+1 应为 2，实际 %v", v)
 	}

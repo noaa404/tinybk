@@ -1,0 +1,161 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Release preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tag format and main ancestry
+        shell: bash
+        run: |
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([-.].*)?$ ]]; then
+            echo "::error::Invalid release tag '$GITHUB_REF_NAME'; expected vMAJOR.MINOR.PATCH[-prerelease]"
+            exit 1
+          fi
+          git fetch origin main
+          if ! git merge-base --is-ancestor HEAD origin/main; then
+            echo "::error::Release tag $GITHUB_REF_NAME does not point to a commit on main"
+            exit 1
+          fi
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Locate Chrome
+        shell: bash
+        run: |
+          chrome=""
+          for candidate in \
+            "$(command -v google-chrome 2>/dev/null || true)" \
+            "$(command -v google-chrome-stable 2>/dev/null || true)" \
+            "$(command -v chromium 2>/dev/null || true)" \
+            "$(command -v chromium-browser 2>/dev/null || true)"; do
+            if [ -n "$candidate" ] && [ -x "$candidate" ]; then
+              chrome="$candidate"
+              break
+            fi
+          done
+          if [ -z "$chrome" ]; then
+            echo "::error::Chrome/Chromium not found on this runner"
+            exit 1
+          fi
+          "$chrome" --version
+          echo "BK_CHROME=$chrome" >> "$GITHUB_ENV"
+
+      - name: Run tests
+        env:
+          BK_REQUIRE_E2E: "1"
+          BK_E2E_NO_SANDBOX: "1"
+        run: go test -race -shuffle=on -count=1 -timeout=10m ./...
+
+  build:
+    name: Build release assets
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Build archives and checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$GITHUB_REF_NAME"
+          mkdir -p dist
+
+          for target in linux/amd64 linux/arm64 darwin/amd64 darwin/arm64; do
+            goos="${target%/*}"
+            goarch="${target#*/}"
+            name="tinybk_${version}_${goos}_${goarch}"
+
+            mkdir -p "dist/$name"
+            CGO_ENABLED=0 GOOS="$goos" GOARCH="$goarch" \
+              go build -trimpath \
+              -ldflags "-s -w -X main.version=${version}" \
+              -o "dist/$name/tinybk" .
+            tar -C "dist/$name" -czf "dist/${name}.tar.gz" tinybk
+            rm -rf "dist/$name"
+          done
+
+          (
+            cd dist
+            sha256sum *.tar.gz > SHA256SUMS
+          )
+
+          smoke_dir="$(mktemp -d)"
+          tar -xzf "dist/tinybk_${version}_linux_amd64.tar.gz" -C "$smoke_dir"
+          "$smoke_dir/tinybk" --version | grep -Fx "tinybk ${version}"
+          "$smoke_dir/tinybk" help >/dev/null
+          rm -rf "$smoke_dir"
+
+      - name: Upload release assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Download release assets
+        uses: actions/download-artifact@v4
+        with:
+          name: release-assets
+          path: dist
+
+      - name: Create or update GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          tag="$GITHUB_REF_NAME"
+          prerelease_args=()
+          if [[ "$tag" == *-* ]]; then
+            prerelease_args+=(--prerelease)
+          fi
+
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" dist/*.tar.gz dist/SHA256SUMS --clobber
+          else
+            gh release create "$tag" dist/*.tar.gz dist/SHA256SUMS \
+              --title "$tag" \
+              --generate-notes \
+              "${prerelease_args[@]}"
+          fi

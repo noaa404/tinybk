@@ -1,0 +1,731 @@
+{
+  "metadata": {
+    "benchmark": "mvp-deepseek-flash-v1",
+    "generated_at": "2026-11-25T16:22:13.487612+00:00",
+    "tinybk_version": "tinybk v0.1.1-0.20261125062411-9d7815e598dd+dirty",
+    "pinchtab_version": "pinchtab 0.15.2",
+    "pi_version": "",
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "thinking": "off",
+    "chrome": "Chrome/158.0.8127.88",
+    "platform": "Linux-7.2.6-arch2-1-x86_64-with-glibc2.44",
+    "machine": "x86_64",
+    "reps": 3,
+    "tasks": {
+      "task5": {
+        "path": "/task5",
+        "prompt": "Open {url}. Click Start order. Fill Name with Alice, Email with alice@example.com, and Plan with PRO. Click Submit order. Report the order code shown. Reply with only the order code.",
+        "expected": "ORDER-LONG-7721",
+        "events": [
+          "view",
+          "started",
+          "submitted"
+        ]
+      },
+      "task6": {
+        "path": "/task6",
+        "prompt": "Open {url}. Read the status. If it is NEEDS_REVIEW, click Request review, fill Note with escalate, and click Submit review. Otherwise click Complete directly. Report the final code shown. Reply with only the code.",
+        "expected": "REVIEW-CODE-9412",
+        "events": [
+          "view",
+          "review_clicked",
+          "review_submitted"
+        ]
+      }
+    },
+    "guides": {
+      "tinybk": "Browser command: ./browser\nCommands:\n  ./browser goto <url>\n  ./browser see\n  ./browser map\n  ./browser click <css|ref=@id|label=text>\n  ./browser type <css|ref=@id> <text>\n",
+      "pinchtab": "Browser command: ./browser\nCommands:\n  ./browser nav <url> --text\n  ./browser text\n  ./browser snap -i -c\n  ./browser click <ref> --text\n  ./browser click --css <selector> --text\n  ./browser fill <selector> <text>\n"
+    }
+  },
+  "summary": {
+    "tinybk/task5": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 7683.7,
+      "median_tokens": 7611,
+      "avg_cost_usd": 0.000952,
+      "avg_api_calls": 5,
+      "avg_tool_calls": 4,
+      "avg_wall_ms": 5523.8,
+      "suspicious_runs": 0
+    },
+    "tinybk/task6": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 9367.7,
+      "median_tokens": 7485,
+      "avg_cost_usd": 0.000921,
+      "avg_api_calls": 6,
+      "avg_tool_calls": 5,
+      "avg_wall_ms": 6943.2,
+      "suspicious_runs": 0
+    },
+    "pinchtab/task5": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 9921,
+      "median_tokens": 10693,
+      "avg_cost_usd": 0.001002,
+      "avg_api_calls": 6.33,
+      "avg_tool_calls": 5.33,
+      "avg_wall_ms": 7670.1,
+      "suspicious_runs": 0
+    },
+    "pinchtab/task6": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 10751.7,
+      "median_tokens": 10890,
+      "avg_cost_usd": 0.001018,
+      "avg_api_calls": 7,
+      "avg_tool_calls": 6.33,
+      "avg_wall_ms": 7599.1,
+      "suspicious_runs": 0
+    }
+  },
+  "runs": [
+    {
+      "lane": "tinybk",
+      "task": "task5",
+      "rep": 1,
+      "run_id": "tinybk-task5-r1",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-LONG-7721",
+      "usage": {
+        "input": 1229,
+        "output": 307,
+        "cacheRead": 6016,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7552,
+        "cost": 0.0007731959999999999
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task5?run=tinybk-task5-r1",
+        "click label=Start order",
+        "see",
+        "map",
+        "type #name Alice",
+        "type #email alice@example.com",
+        "type #plan PRO",
+        "click #submit",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 5204.38,
+      "events": [
+        {
+          "task": "task5",
+          "event": "view",
+          "run": "tinybk-task5-r1"
+        },
+        {
+          "task": "task5",
+          "event": "started",
+          "run": "tinybk-task5-r1"
+        },
+        {
+          "task": "task5",
+          "event": "submitted",
+          "run": "tinybk-task5-r1",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "plan": "PRO"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task5",
+      "rep": 1,
+      "run_id": "pinchtab-task5-r1",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-LONG-7721",
+      "usage": {
+        "input": 938,
+        "output": 243,
+        "cacheRead": 5760,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 6941,
+        "cost": 0.0006075599999999999
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task5?run=pinchtab-task5-r1 --text",
+        "snap -i -c",
+        "click e1 --text",
+        "snap -i -c",
+        "fill e2 Alice",
+        "fill e3 alice@example.com",
+        "fill e4 PRO",
+        "click e5 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 5393.91,
+      "events": [
+        {
+          "task": "task5",
+          "event": "view",
+          "run": "pinchtab-task5-r1"
+        },
+        {
+          "task": "task5",
+          "event": "started",
+          "run": "pinchtab-task5-r1"
+        },
+        {
+          "task": "task5",
+          "event": "submitted",
+          "run": "pinchtab-task5-r1",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "plan": "PRO"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task6",
+      "rep": 1,
+      "run_id": "tinybk-task6-r1",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "REVIEW-CODE-9412",
+      "usage": {
+        "input": 1238,
+        "output": 228,
+        "cacheRead": 6016,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7482,
+        "cost": 0.0006810960000000001
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task6?run=tinybk-task6-r1",
+        "see",
+        "click label=Request review",
+        "see",
+        "map",
+        "type ref=@s escalate",
+        "click ref=@11",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 5563.92,
+      "events": [
+        {
+          "task": "task6",
+          "event": "view",
+          "run": "tinybk-task6-r1"
+        },
+        {
+          "task": "task6",
+          "event": "review_clicked",
+          "run": "tinybk-task6-r1"
+        },
+        {
+          "task": "task6",
+          "event": "review_submitted",
+          "run": "tinybk-task6-r1",
+          "note": "escalate"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task6",
+      "rep": 1,
+      "run_id": "pinchtab-task6-r1",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "REVIEW-CODE-9412",
+      "usage": {
+        "input": 1324,
+        "output": 460,
+        "cacheRead": 9213,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 10997,
+        "cost": 0.001004478
+      },
+      "api_calls": 7,
+      "tool_calls": 7,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task6?run=pinchtab-task6-r1 --text",
+        "snap -i -c",
+        "click e2 --text",
+        "snap -i -c",
+        "fill input escalate",
+        "snap -i -c",
+        "click e4 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 7719.88,
+      "events": [
+        {
+          "task": "task6",
+          "event": "view",
+          "run": "pinchtab-task6-r1"
+        },
+        {
+          "task": "task6",
+          "event": "review_clicked",
+          "run": "pinchtab-task6-r1"
+        },
+        {
+          "task": "task6",
+          "event": "review_submitted",
+          "run": "pinchtab-task6-r1",
+          "note": "escalate"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task5",
+      "rep": 2,
+      "run_id": "pinchtab-task5-r2",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-LONG-7721",
+      "usage": {
+        "input": 2028,
+        "output": 501,
+        "cacheRead": 9600,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 12129,
+        "cost": 0.0012672
+      },
+      "api_calls": 7,
+      "tool_calls": 6,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task5?run=pinchtab-task5-r2 --text",
+        "snap -i -c",
+        "click e1 --text",
+        "snap -i -c",
+        "fill input[name=\"name\"] Alice",
+        "fill input[name=\"email\"] alice@example.com",
+        "fill input[name=\"plan\"] PRO",
+        "snap -i -c",
+        "fill e2 Alice",
+        "fill e3 alice@example.com",
+        "fill e4 PRO",
+        "snap -i -c",
+        "click e5 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 8691.52,
+      "events": [
+        {
+          "task": "task5",
+          "event": "view",
+          "run": "pinchtab-task5-r2"
+        },
+        {
+          "task": "task5",
+          "event": "started",
+          "run": "pinchtab-task5-r2"
+        },
+        {
+          "task": "task5",
+          "event": "submitted",
+          "run": "pinchtab-task5-r2",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "plan": "PRO"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task5",
+      "rep": 2,
+      "run_id": "tinybk-task5-r2",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-LONG-7721",
+      "usage": {
+        "input": 1857,
+        "output": 399,
+        "cacheRead": 5632,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7888,
+        "cost": 0.001069692
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task5?run=tinybk-task5-r2",
+        "map",
+        "see",
+        "click ref=@1f",
+        "map",
+        "type ref=@17 Alice",
+        "type ref=@18 alice@example.com",
+        "type ref=@19 PRO",
+        "click ref=@1j",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 5957.62,
+      "events": [
+        {
+          "task": "task5",
+          "event": "view",
+          "run": "tinybk-task5-r2"
+        },
+        {
+          "task": "task5",
+          "event": "started",
+          "run": "tinybk-task5-r2"
+        },
+        {
+          "task": "task5",
+          "event": "submitted",
+          "run": "tinybk-task5-r2",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "plan": "PRO"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task6",
+      "rep": 2,
+      "run_id": "pinchtab-task6-r2",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "REVIEW-CODE-9412",
+      "usage": {
+        "input": 1905,
+        "output": 409,
+        "cacheRead": 8576,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 10890,
+        "cost": 0.001113756
+      },
+      "api_calls": 7,
+      "tool_calls": 6,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task6?run=pinchtab-task6-r2 --text",
+        "snap -i -c",
+        "click e2 --text",
+        "snap -i -c",
+        "fill input, textarea escalate",
+        "snap -i -c",
+        "click e4 --text",
+        "text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 7876.55,
+      "events": [
+        {
+          "task": "task6",
+          "event": "view",
+          "run": "pinchtab-task6-r2"
+        },
+        {
+          "task": "task6",
+          "event": "review_clicked",
+          "run": "pinchtab-task6-r2"
+        },
+        {
+          "task": "task6",
+          "event": "review_submitted",
+          "run": "pinchtab-task6-r2",
+          "note": "escalate"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task6",
+      "rep": 2,
+      "run_id": "tinybk-task6-r2",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "REVIEW-CODE-9412",
+      "usage": {
+        "input": 2030,
+        "output": 482,
+        "cacheRead": 10624,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 13136,
+        "cost": 0.001251144
+      },
+      "api_calls": 8,
+      "tool_calls": 7,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task6?run=tinybk-task6-r2",
+        "see",
+        "map",
+        "click label=Request review",
+        "map",
+        "type #note escalate",
+        "click label=Submit review"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 8567.68,
+      "events": [
+        {
+          "task": "task6",
+          "event": "view",
+          "run": "tinybk-task6-r2"
+        },
+        {
+          "task": "task6",
+          "event": "review_clicked",
+          "run": "tinybk-task6-r2"
+        },
+        {
+          "task": "task6",
+          "event": "review_submitted",
+          "run": "tinybk-task6-r2",
+          "note": "escalate"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task5",
+      "rep": 3,
+      "run_id": "tinybk-task5-r3",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-LONG-7721",
+      "usage": {
+        "input": 1721,
+        "output": 386,
+        "cacheRead": 5504,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7611,
+        "cost": 0.0010125239999999999
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task5?run=tinybk-task5-r3",
+        "map",
+        "click ref=@2c",
+        "map",
+        "type #name Alice",
+        "type #email alice@example.com",
+        "type #plan PRO",
+        "click ref=@2g"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 5409.49,
+      "events": [
+        {
+          "task": "task5",
+          "event": "view",
+          "run": "tinybk-task5-r3"
+        },
+        {
+          "task": "task5",
+          "event": "started",
+          "run": "tinybk-task5-r3"
+        },
+        {
+          "task": "task5",
+          "event": "submitted",
+          "run": "tinybk-task5-r3",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "plan": "PRO"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task5",
+      "rep": 3,
+      "run_id": "pinchtab-task5-r3",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-LONG-7721",
+      "usage": {
+        "input": 1963,
+        "output": 410,
+        "cacheRead": 8320,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 10693,
+        "cost": 0.00113082
+      },
+      "api_calls": 7,
+      "tool_calls": 6,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task5?run=pinchtab-task5-r3 --text",
+        "snap -i -c",
+        "click e1 --text",
+        "snap -i -c",
+        "fill e2 Alice",
+        "fill e3 alice@example.com",
+        "fill e4 PRO",
+        "click e5 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 8924.93,
+      "events": [
+        {
+          "task": "task5",
+          "event": "view",
+          "run": "pinchtab-task5-r3"
+        },
+        {
+          "task": "task5",
+          "event": "started",
+          "run": "pinchtab-task5-r3"
+        },
+        {
+          "task": "task5",
+          "event": "submitted",
+          "run": "pinchtab-task5-r3",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "plan": "PRO"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task6",
+      "rep": 3,
+      "run_id": "tinybk-task6-r3",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "REVIEW-CODE-9412",
+      "usage": {
+        "input": 1756,
+        "output": 225,
+        "cacheRead": 5504,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7485,
+        "cost": 0.0008298239999999998
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task6?run=tinybk-task6-r3",
+        "see",
+        "click label=Request review",
+        "see",
+        "map",
+        "type #note escalate",
+        "click label=Submit review",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 6698.15,
+      "events": [
+        {
+          "task": "task6",
+          "event": "view",
+          "run": "tinybk-task6-r3"
+        },
+        {
+          "task": "task6",
+          "event": "review_clicked",
+          "run": "tinybk-task6-r3"
+        },
+        {
+          "task": "task6",
+          "event": "review_submitted",
+          "run": "tinybk-task6-r3",
+          "note": "escalate"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task6",
+      "rep": 3,
+      "run_id": "pinchtab-task6-r3",
+      "rc": 0,
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "REVIEW-CODE-9412",
+      "usage": {
+        "input": 1746,
+        "output": 302,
+        "cacheRead": 8320,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 10368,
+        "cost": 0.0009361199999999998
+      },
+      "api_calls": 7,
+      "tool_calls": 6,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task6?run=pinchtab-task6-r3 --text",
+        "snap -i -c",
+        "click e2 --text",
+        "snap -i -c",
+        "fill input escalate",
+        "snap -i -c",
+        "click e4 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 7200.8,
+      "events": [
+        {
+          "task": "task6",
+          "event": "view",
+          "run": "pinchtab-task6-r3"
+        },
+        {
+          "task": "task6",
+          "event": "review_clicked",
+          "run": "pinchtab-task6-r3"
+        },
+        {
+          "task": "task6",
+          "event": "review_submitted",
+          "run": "pinchtab-task6-r3",
+          "note": "escalate"
+        }
+      ]
+    }
+  ]
+}

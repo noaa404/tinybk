@@ -1,0 +1,1119 @@
+{
+  "metadata": {
+    "benchmark": "mvp-deepseek-flash-v1",
+    "generated_at": "2026-11-25T16:02:20.038316+00:00",
+    "tinybk_version": "tinybk v0.1.1-0.20261125062411-9d7815e598dd+dirty",
+    "pinchtab_version": "pinchtab 0.15.2",
+    "pi_version": "unknown",
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "thinking": "off",
+    "chrome": "Chrome/158.0.8127.88",
+    "platform": "Linux-7.2.6-arch2-1-x86_64-with-glibc2.44",
+    "machine": "x86_64",
+    "reps": 3,
+    "tasks": {
+      "task1": {
+        "path": "/task1",
+        "prompt": "Open {url} and report the order code shown on the page. Reply with only the order code.",
+        "expected": "ORDER-7391",
+        "events": [
+          "view"
+        ]
+      },
+      "task2": {
+        "path": "/task2",
+        "prompt": "Open {url}. Click the button labeled Approve. Report the status shown on the page. Reply with only the status text.",
+        "expected": "APPROVED",
+        "events": [
+          "view",
+          "approved"
+        ]
+      },
+      "task3": {
+        "path": "/task3",
+        "prompt": "Open {url}. Fill Name with Alice, Email with alice@example.com, and Notes with MVP. Click Submit. Report the status shown on the page. Reply with only the status text.",
+        "expected": "SUBMITTED",
+        "events": [
+          "view",
+          "submitted"
+        ]
+      },
+      "task4": {
+        "path": "/task4/start",
+        "prompt": "Open {url}. Follow the 'Open details' link. Report the activation code shown on the details page. Reply with only the activation code.",
+        "expected": "ACT-2841",
+        "events": [
+          "start_view",
+          "details_view"
+        ]
+      }
+    },
+    "guides": {
+      "tinybk": "Browser command: ./browser\nCommands:\n  ./browser goto <url>\n  ./browser see\n  ./browser map\n  ./browser click <css|ref=@id|label=text>\n  ./browser type <css|ref=@id> <text>\n",
+      "pinchtab": "Browser command: ./browser\nCommands:\n  ./browser nav <url> --text\n  ./browser text\n  ./browser snap -i -c\n  ./browser click <ref> --text\n  ./browser click --css <selector> --text\n  ./browser fill <selector> <text>\n"
+    },
+    "notes": [
+      "Each run uses a fresh pi process with --no-session and a fresh workdir.",
+      "Correctness requires both the expected answer and browser-generated fixture events.",
+      "Tool output bytes are not the metric; API usage is read from the pi JSON event stream."
+    ]
+  },
+  "summary": {
+    "tinybk/task1": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 2253,
+      "median_tokens": 2288,
+      "avg_cost_usd": 0.000237,
+      "avg_api_calls": 2,
+      "avg_tool_calls": 1,
+      "avg_wall_ms": 2025.4,
+      "suspicious_runs": 0
+    },
+    "tinybk/task2": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 3698.3,
+      "median_tokens": 3623,
+      "avg_cost_usd": 0.000393,
+      "avg_api_calls": 3,
+      "avg_tool_calls": 2,
+      "avg_wall_ms": 3641.3,
+      "suspicious_runs": 0
+    },
+    "tinybk/task3": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 6302,
+      "median_tokens": 5980,
+      "avg_cost_usd": 0.000675,
+      "avg_api_calls": 4.33,
+      "avg_tool_calls": 3.33,
+      "avg_wall_ms": 4802.0,
+      "suspicious_runs": 0
+    },
+    "tinybk/task4": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 3683.7,
+      "median_tokens": 3659,
+      "avg_cost_usd": 0.000401,
+      "avg_api_calls": 3,
+      "avg_tool_calls": 2,
+      "avg_wall_ms": 3345.4,
+      "suspicious_runs": 0
+    },
+    "pinchtab/task1": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 2233,
+      "median_tokens": 2233,
+      "avg_cost_usd": 0.000261,
+      "avg_api_calls": 2,
+      "avg_tool_calls": 1,
+      "avg_wall_ms": 2456.2,
+      "suspicious_runs": 0
+    },
+    "pinchtab/task2": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 4669.7,
+      "median_tokens": 5094,
+      "avg_cost_usd": 0.000497,
+      "avg_api_calls": 3.67,
+      "avg_tool_calls": 2.67,
+      "avg_wall_ms": 4424.5,
+      "suspicious_runs": 0
+    },
+    "pinchtab/task3": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 10950.3,
+      "median_tokens": 7069,
+      "avg_cost_usd": 0.001018,
+      "avg_api_calls": 6.67,
+      "avg_tool_calls": 5.67,
+      "avg_wall_ms": 8072.7,
+      "suspicious_runs": 0
+    },
+    "pinchtab/task4": {
+      "n": 3,
+      "success_rate": 1.0,
+      "avg_tokens": 6413,
+      "median_tokens": 6933,
+      "avg_cost_usd": 0.000636,
+      "avg_api_calls": 4.67,
+      "avg_tool_calls": 3.67,
+      "avg_wall_ms": 5492.8,
+      "suspicious_runs": 0
+    }
+  },
+  "runs": [
+    {
+      "lane": "pinchtab",
+      "task": "task1",
+      "rep": 1,
+      "run_id": "pinchtab-task1-r1",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-7391",
+      "usage": {
+        "input": 480,
+        "output": 89,
+        "cacheRead": 1664,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2233,
+        "cost": 0.000260784
+      },
+      "api_calls": 2,
+      "tool_calls": 1,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task1?run=pinchtab-task1-r1 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 2454.88,
+      "events": [
+        {
+          "task": "task1",
+          "event": "view",
+          "run": "pinchtab-task1-r1"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task1",
+      "rep": 2,
+      "run_id": "pinchtab-task1-r2",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-7391",
+      "usage": {
+        "input": 478,
+        "output": 87,
+        "cacheRead": 1664,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2229,
+        "cost": 0.000257784
+      },
+      "api_calls": 2,
+      "tool_calls": 1,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task1?run=pinchtab-task1-r2 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 2244.13,
+      "events": [
+        {
+          "task": "task1",
+          "event": "view",
+          "run": "pinchtab-task1-r2"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task1",
+      "rep": 3,
+      "run_id": "pinchtab-task1-r3",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-7391",
+      "usage": {
+        "input": 482,
+        "output": 91,
+        "cacheRead": 1664,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2237,
+        "cost": 0.000263784
+      },
+      "api_calls": 2,
+      "tool_calls": 1,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task1?run=pinchtab-task1-r3 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 2669.59,
+      "events": [
+        {
+          "task": "task1",
+          "event": "view",
+          "run": "pinchtab-task1-r3"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task2",
+      "rep": 1,
+      "run_id": "pinchtab-task2-r1",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "APPROVED",
+      "usage": {
+        "input": 758,
+        "output": 265,
+        "cacheRead": 4224,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 5247,
+        "cost": 0.000570744
+      },
+      "api_calls": 4,
+      "tool_calls": 3,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task2?run=pinchtab-task2-r1 --text",
+        "snap -i -c",
+        "click e1 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 5064.7,
+      "events": [
+        {
+          "task": "task2",
+          "event": "view",
+          "run": "pinchtab-task2-r1"
+        },
+        {
+          "task": "task2",
+          "event": "approved",
+          "run": "pinchtab-task2-r1"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task2",
+      "rep": 2,
+      "run_id": "pinchtab-task2-r2",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "APPROVED",
+      "usage": {
+        "input": 535,
+        "output": 189,
+        "cacheRead": 2944,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 3668,
+        "cost": 0.00040496399999999995
+      },
+      "api_calls": 3,
+      "tool_calls": 2,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task2?run=pinchtab-task2-r2 --text",
+        "click --css button --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 3975.57,
+      "events": [
+        {
+          "task": "task2",
+          "event": "view",
+          "run": "pinchtab-task2-r2"
+        },
+        {
+          "task": "task2",
+          "event": "approved",
+          "run": "pinchtab-task2-r2"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task2",
+      "rep": 3,
+      "run_id": "pinchtab-task2-r3",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "APPROVED",
+      "usage": {
+        "input": 784,
+        "output": 214,
+        "cacheRead": 4096,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 5094,
+        "cost": 0.0005165759999999999
+      },
+      "api_calls": 4,
+      "tool_calls": 3,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task2?run=pinchtab-task2-r3 --text",
+        "snap -i -c",
+        "click e1 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 4233.11,
+      "events": [
+        {
+          "task": "task2",
+          "event": "view",
+          "run": "pinchtab-task2-r3"
+        },
+        {
+          "task": "task2",
+          "event": "approved",
+          "run": "pinchtab-task2-r3"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task3",
+      "rep": 1,
+      "run_id": "pinchtab-task3-r1",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "SUBMITTED",
+      "usage": {
+        "input": 988,
+        "output": 321,
+        "cacheRead": 5760,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7069,
+        "cost": 0.00071616
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task3?run=pinchtab-task3-r1 --text",
+        "snap -i -c",
+        "fill #name Alice",
+        "snap -i -c",
+        "fill #email alice@example.com",
+        "fill #notes MVP",
+        "click e4 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 6427.51,
+      "events": [
+        {
+          "task": "task3",
+          "event": "view",
+          "run": "pinchtab-task3-r1"
+        },
+        {
+          "task": "task3",
+          "event": "submitted",
+          "run": "pinchtab-task3-r1",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "notes": "MVP"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task3",
+      "rep": 2,
+      "run_id": "pinchtab-task3-r2",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "SUBMITTED",
+      "usage": {
+        "input": 1064,
+        "output": 299,
+        "cacheRead": 5632,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 6995,
+        "cost": 0.0007117919999999999
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task3?run=pinchtab-task3-r2 --text",
+        "snap -i -c",
+        "fill #name Alice",
+        "fill #email alice@example.com",
+        "fill #notes MVP",
+        "click e4 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 6279.3,
+      "events": [
+        {
+          "task": "task3",
+          "event": "view",
+          "run": "pinchtab-task3-r2"
+        },
+        {
+          "task": "task3",
+          "event": "submitted",
+          "run": "pinchtab-task3-r2",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "notes": "MVP"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task3",
+      "rep": 3,
+      "run_id": "pinchtab-task3-r3",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "SUBMITTED",
+      "usage": {
+        "input": 1845,
+        "output": 814,
+        "cacheRead": 16128,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 18787,
+        "cost": 0.001627068
+      },
+      "api_calls": 10,
+      "tool_calls": 9,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task3?run=pinchtab-task3-r3 --text",
+        "snap -i -c",
+        "fill input[name=name] Alice",
+        "fill input Alice",
+        "text",
+        "snap -i -c",
+        "fill input[name='email'] alice@example.com",
+        "fill #email alice@example.com",
+        "fill input[type=email] alice@example.com",
+        "fill #notes MVP",
+        "snap -i -c",
+        "click e4 --text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 11511.29,
+      "events": [
+        {
+          "task": "task3",
+          "event": "view",
+          "run": "pinchtab-task3-r3"
+        },
+        {
+          "task": "task3",
+          "event": "submitted",
+          "run": "pinchtab-task3-r3",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "notes": "MVP"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task4",
+      "rep": 1,
+      "run_id": "pinchtab-task4-r1",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ACT-2841",
+      "usage": {
+        "input": 862,
+        "output": 159,
+        "cacheRead": 4096,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 5117,
+        "cost": 0.000473976
+      },
+      "api_calls": 4,
+      "tool_calls": 3,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task4/start?run=pinchtab-task4-r1 --text",
+        "click --css a --text",
+        "text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 4495.43,
+      "events": [
+        {
+          "task": "task4",
+          "event": "start_view",
+          "run": "pinchtab-task4-r1"
+        },
+        {
+          "task": "task4",
+          "event": "details_view",
+          "run": "pinchtab-task4-r1"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task4",
+      "rep": 2,
+      "run_id": "pinchtab-task4-r2",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ACT-2841",
+      "usage": {
+        "input": 960,
+        "output": 341,
+        "cacheRead": 5888,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7189,
+        "cost": 0.0007325280000000001
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task4/start?run=pinchtab-task4-r2 --text",
+        "snap -i -c",
+        "click e1 --text",
+        "text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 6270.62,
+      "events": [
+        {
+          "task": "task4",
+          "event": "start_view",
+          "run": "pinchtab-task4-r2"
+        },
+        {
+          "task": "task4",
+          "event": "details_view",
+          "run": "pinchtab-task4-r2"
+        }
+      ]
+    },
+    {
+      "lane": "pinchtab",
+      "task": "task4",
+      "rep": 3,
+      "run_id": "pinchtab-task4-r3",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ACT-2841",
+      "usage": {
+        "input": 1162,
+        "output": 267,
+        "cacheRead": 5504,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 6933,
+        "cost": 0.000702024
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "nav http://127.0.0.1:39002/task4/start?run=pinchtab-task4-r3 --text",
+        "snap -i -c",
+        "click e1 --text",
+        "text"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 5712.34,
+      "events": [
+        {
+          "task": "task4",
+          "event": "start_view",
+          "run": "pinchtab-task4-r3"
+        },
+        {
+          "task": "task4",
+          "event": "details_view",
+          "run": "pinchtab-task4-r3"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task1",
+      "rep": 1,
+      "run_id": "tinybk-task1-r1",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-7391",
+      "usage": {
+        "input": 448,
+        "output": 69,
+        "cacheRead": 1664,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2181,
+        "cost": 0.00022718399999999996
+      },
+      "api_calls": 2,
+      "tool_calls": 1,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task1?run=tinybk-task1-r1"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 2024.04,
+      "events": [
+        {
+          "task": "task1",
+          "event": "view",
+          "run": "tinybk-task1-r1"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task1",
+      "rep": 2,
+      "run_id": "tinybk-task1-r2",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-7391",
+      "usage": {
+        "input": 406,
+        "output": 92,
+        "cacheRead": 1792,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2290,
+        "cost": 0.00024295199999999997
+      },
+      "api_calls": 2,
+      "tool_calls": 1,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task1?run=tinybk-task1-r2",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 2043.36,
+      "events": [
+        {
+          "task": "task1",
+          "event": "view",
+          "run": "tinybk-task1-r2"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task1",
+      "rep": 3,
+      "run_id": "tinybk-task1-r3",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ORDER-7391",
+      "usage": {
+        "input": 405,
+        "output": 91,
+        "cacheRead": 1792,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2288,
+        "cost": 0.00024145199999999996
+      },
+      "api_calls": 2,
+      "tool_calls": 1,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task1?run=tinybk-task1-r3",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 2008.91,
+      "events": [
+        {
+          "task": "task1",
+          "event": "view",
+          "run": "tinybk-task1-r3"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task2",
+      "rep": 1,
+      "run_id": "tinybk-task2-r1",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "APPROVED",
+      "usage": {
+        "input": 619,
+        "output": 163,
+        "cacheRead": 3072,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 3854,
+        "cost": 0.0003997319999999999
+      },
+      "api_calls": 3,
+      "tool_calls": 2,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task2?run=tinybk-task2-r1",
+        "see",
+        "click label=Approve",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 3462.64,
+      "events": [
+        {
+          "task": "task2",
+          "event": "view",
+          "run": "tinybk-task2-r1"
+        },
+        {
+          "task": "task2",
+          "event": "approved",
+          "run": "tinybk-task2-r1"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task2",
+      "rep": 2,
+      "run_id": "tinybk-task2-r2",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "APPROVED",
+      "usage": {
+        "input": 657,
+        "output": 145,
+        "cacheRead": 2816,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 3618,
+        "cost": 0.00038799599999999994
+      },
+      "api_calls": 3,
+      "tool_calls": 2,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task2?run=tinybk-task2-r2",
+        "click label=Approve"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 3054.1,
+      "events": [
+        {
+          "task": "task2",
+          "event": "view",
+          "run": "tinybk-task2-r2"
+        },
+        {
+          "task": "task2",
+          "event": "approved",
+          "run": "tinybk-task2-r2"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task2",
+      "rep": 3,
+      "run_id": "tinybk-task2-r3",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "APPROVED",
+      "usage": {
+        "input": 660,
+        "output": 147,
+        "cacheRead": 2816,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 3623,
+        "cost": 0.00039129599999999996
+      },
+      "api_calls": 3,
+      "tool_calls": 2,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task2?run=tinybk-task2-r3",
+        "click label=Approve"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 4407.02,
+      "events": [
+        {
+          "task": "task2",
+          "event": "view",
+          "run": "tinybk-task2-r3"
+        },
+        {
+          "task": "task2",
+          "event": "approved",
+          "run": "tinybk-task2-r3"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task3",
+      "rep": 1,
+      "run_id": "tinybk-task3-r1",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "SUBMITTED",
+      "usage": {
+        "input": 999,
+        "output": 242,
+        "cacheRead": 4352,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 5593,
+        "cost": 0.000616212
+      },
+      "api_calls": 4,
+      "tool_calls": 3,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task3?run=tinybk-task3-r1",
+        "map",
+        "type #name Alice",
+        "type #email alice@example.com",
+        "type #notes MVP",
+        "click #submit",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 4204.05,
+      "events": [
+        {
+          "task": "task3",
+          "event": "view",
+          "run": "tinybk-task3-r1"
+        },
+        {
+          "task": "task3",
+          "event": "submitted",
+          "run": "tinybk-task3-r1",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "notes": "MVP"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task3",
+      "rep": 2,
+      "run_id": "tinybk-task3-r2",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "SUBMITTED",
+      "usage": {
+        "input": 1068,
+        "output": 304,
+        "cacheRead": 4608,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 5980,
+        "cost": 0.000712848
+      },
+      "api_calls": 4,
+      "tool_calls": 3,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task3?run=tinybk-task3-r2",
+        "see",
+        "map",
+        "type ref=@2d Alice",
+        "type ref=@2e alice@example.com",
+        "type ref=@2f MVP",
+        "click ref=@2o",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 4507.79,
+      "events": [
+        {
+          "task": "task3",
+          "event": "view",
+          "run": "tinybk-task3-r2"
+        },
+        {
+          "task": "task3",
+          "event": "submitted",
+          "run": "tinybk-task3-r2",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "notes": "MVP"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task3",
+      "rep": 3,
+      "run_id": "tinybk-task3-r3",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "SUBMITTED",
+      "usage": {
+        "input": 1022,
+        "output": 295,
+        "cacheRead": 6016,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7333,
+        "cost": 0.0006966959999999999
+      },
+      "api_calls": 5,
+      "tool_calls": 4,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task3?run=tinybk-task3-r3",
+        "map",
+        "type ref=@3v Alice",
+        "type ref=@3w alice@example.com",
+        "type ref=@3x MVP",
+        "click ref=@46",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 5694.17,
+      "events": [
+        {
+          "task": "task3",
+          "event": "view",
+          "run": "tinybk-task3-r3"
+        },
+        {
+          "task": "task3",
+          "event": "submitted",
+          "run": "tinybk-task3-r3",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "notes": "MVP"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task4",
+      "rep": 1,
+      "run_id": "tinybk-task4-r1",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ACT-2841",
+      "usage": {
+        "input": 638,
+        "output": 114,
+        "cacheRead": 2816,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 3568,
+        "cost": 0.00034509600000000003
+      },
+      "api_calls": 3,
+      "tool_calls": 2,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task4/start?run=tinybk-task4-r1",
+        "click label=Open details"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 3904.55,
+      "events": [
+        {
+          "task": "task4",
+          "event": "start_view",
+          "run": "tinybk-task4-r1"
+        },
+        {
+          "task": "task4",
+          "event": "details_view",
+          "run": "tinybk-task4-r1"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task4",
+      "rep": 2,
+      "run_id": "tinybk-task4-r2",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ACT-2841",
+      "usage": {
+        "input": 693,
+        "output": 150,
+        "cacheRead": 2816,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 3659,
+        "cost": 0.000404796
+      },
+      "api_calls": 3,
+      "tool_calls": 2,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task4/start?run=tinybk-task4-r2",
+        "click label=Open details"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 3196.34,
+      "events": [
+        {
+          "task": "task4",
+          "event": "start_view",
+          "run": "tinybk-task4-r2"
+        },
+        {
+          "task": "task4",
+          "event": "details_view",
+          "run": "tinybk-task4-r2"
+        }
+      ]
+    },
+    {
+      "lane": "tinybk",
+      "task": "task4",
+      "rep": 3,
+      "run_id": "tinybk-task4-r3",
+      "success": true,
+      "event_ok": true,
+      "answer_ok": true,
+      "final_answer": "ACT-2841",
+      "usage": {
+        "input": 690,
+        "output": 190,
+        "cacheRead": 2944,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 3824,
+        "cost": 0.000452664
+      },
+      "api_calls": 3,
+      "tool_calls": 2,
+      "browser_commands": [
+        "goto http://127.0.0.1:39002/task4/start?run=tinybk-task4-r3",
+        "click label=Open details",
+        "see"
+      ],
+      "suspicious_commands": [],
+      "wall_ms": 2935.29,
+      "events": [
+        {
+          "task": "task4",
+          "event": "start_view",
+          "run": "tinybk-task4-r3"
+        },
+        {
+          "task": "task4",
+          "event": "details_view",
+          "run": "tinybk-task4-r3"
+        }
+      ]
+    }
+  ]
+}

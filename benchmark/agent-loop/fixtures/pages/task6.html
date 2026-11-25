@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Task 6</title></head>
+<body>
+<h1>Review Console</h1>
+<p>Status: <strong id="status">NEEDS_REVIEW</strong></p>
+<button id="complete">Complete directly</button>
+<button id="review">Request review</button>
+<div id="form" style="display:none">
+  <label>Note <input id="note"></label>
+  <button id="submit">Submit review</button>
+</div>
+<div id="result"></div>
+<script>
+const run = new URLSearchParams(location.search).get('run') || '';
+fetch('/event?task=task6&event=view&run=' + encodeURIComponent(run));
+document.getElementById('complete').addEventListener('click', () => {
+  fetch('/event?task=task6&event=complete_clicked&run=' + encodeURIComponent(run));
+  document.getElementById('result').textContent = 'DONE-0000';
+});
+document.getElementById('review').addEventListener('click', () => {
+  fetch('/event?task=task6&event=review_clicked&run=' + encodeURIComponent(run));
+  document.getElementById('form').style.display = 'block';
+  document.getElementById('review').style.display = 'none';
+  document.getElementById('complete').style.display = 'none';
+});
+document.getElementById('submit').addEventListener('click', () => {
+  const n = document.getElementById('note').value;
+  fetch('/event?task=task6&event=review_submitted&run=' + encodeURIComponent(run) + '&note=' + encodeURIComponent(n));
+  document.getElementById('result').textContent = 'REVIEW-CODE-9412';
+});
+</script>
+</body></html>

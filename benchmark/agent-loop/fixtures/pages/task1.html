@@ -1,0 +1,10 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Task 1</title></head>
+<body>
+<h1>Order Desk</h1>
+<p>Order code: <strong id="code">ORDER-7391</strong></p>
+<script>
+const run = new URLSearchParams(location.search).get('run') || '';
+fetch('/event?task=task1&event=view&run=' + encodeURIComponent(run));
+</script>
+</body></html>

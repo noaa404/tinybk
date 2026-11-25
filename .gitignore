@@ -3,3 +3,7 @@
 /.tinybk/
 *.test
 .DS_Store
+
+/bench-results.json
+__pycache__/
+*.pyc

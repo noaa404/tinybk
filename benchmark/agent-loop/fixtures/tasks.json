@@ -1,0 +1,74 @@
+{
+  "task1": {
+    "path": "/task1",
+    "prompt": "Open {url} and report the order code shown on the page. Reply with only the order code.",
+    "expected": "ORDER-7391",
+    "required_events": [
+      {"event": "view"}
+    ]
+  },
+  "task2": {
+    "path": "/task2",
+    "prompt": "Open {url}. Click the button labeled Approve. Report the status shown on the page. Reply with only the status text.",
+    "expected": "APPROVED",
+    "required_events": [
+      {"event": "view"},
+      {"event": "approved"}
+    ]
+  },
+  "task3": {
+    "path": "/task3",
+    "prompt": "Open {url}. Fill Name with Alice, Email with alice@example.com, and Notes with MVP. Click Submit. Report the status shown on the page. Reply with only the status text.",
+    "expected": "SUBMITTED",
+    "required_events": [
+      {"event": "view"},
+      {
+        "event": "submitted",
+        "fields": {
+          "name": "Alice",
+          "email": "alice@example.com",
+          "notes": "MVP"
+        }
+      }
+    ]
+  },
+  "task4": {
+    "path": "/task4/start",
+    "prompt": "Open {url}. Follow the 'Open details' link. Report the activation code shown on the details page. Reply with only the activation code.",
+    "expected": "ACT-2841",
+    "required_events": [
+      {"event": "start_view"},
+      {"event": "details_view"}
+    ]
+  },
+  "task5": {
+    "path": "/task5",
+    "prompt": "Open {url}. Click Start order. Fill Name with Alice, Email with alice@example.com, and Plan with PRO. Click Submit order. Report the order code shown. Reply with only the order code.",
+    "expected": "ORDER-LONG-7721",
+    "required_events": [
+      {"event": "view"},
+      {"event": "started"},
+      {
+        "event": "submitted",
+        "fields": {
+          "name": "Alice",
+          "email": "alice@example.com",
+          "plan": "PRO"
+        }
+      }
+    ]
+  },
+  "task6": {
+    "path": "/task6",
+    "prompt": "Open {url}. Read the status. If it is NEEDS_REVIEW, click Request review, fill Note with escalate, and click Submit review. Otherwise click Complete directly. Report the final code shown. Reply with only the code.",
+    "expected": "REVIEW-CODE-9412",
+    "required_events": [
+      {"event": "view"},
+      {"event": "review_clicked"},
+      {"event": "review_submitted", "fields": {"note": "escalate"}}
+    ],
+    "forbidden_events": [
+      "complete_clicked"
+    ]
+  }
+}

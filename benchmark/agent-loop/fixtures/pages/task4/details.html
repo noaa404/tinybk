@@ -1,0 +1,10 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Task 4 Details</title></head>
+<body>
+<h1>Activation Details</h1>
+<p>Activation code: <strong id="code">ACT-2841</strong></p>
+<script>
+const run = new URLSearchParams(location.search).get('run') || '';
+fetch('/event?task=task4&event=details_view&run=' + encodeURIComponent(run));
+</script>
+</body></html>

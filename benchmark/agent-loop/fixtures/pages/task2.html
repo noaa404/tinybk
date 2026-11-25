@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Task 2</title></head>
+<body>
+<h1>Approval</h1>
+<button id="approve">Approve</button>
+<p>Status: <strong id="status">PENDING</strong></p>
+<script>
+const run = new URLSearchParams(location.search).get('run') || '';
+fetch('/event?task=task2&event=view&run=' + encodeURIComponent(run));
+document.getElementById('approve').addEventListener('click', () => {
+  fetch('/event?task=task2&event=approved&run=' + encodeURIComponent(run));
+  document.getElementById('status').textContent = 'APPROVED';
+});
+</script>
+</body></html>

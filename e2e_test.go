@@ -180,7 +180,12 @@ func findChrome() string {
 func TestMain(m *testing.M) {
 	chromePath := findChrome()
 	if chromePath == "" {
-		fmt.Println("skip e2e: no Chrome/Chromium found; set BK_CHROME to a browser binary")
+		msg := "no Chrome/Chromium found; set BK_CHROME to a browser binary"
+		if os.Getenv("BK_REQUIRE_E2E") != "" {
+			fmt.Fprintln(os.Stderr, "fatal e2e: "+msg)
+			os.Exit(1)
+		}
+		fmt.Println("skip e2e: " + msg)
 		os.Exit(0)
 	}
 	var err error

@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and static analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Check formatting
+        shell: bash
+        run: |
+          unformatted="$(gofmt -l .)"
+          if [ -n "$unformatted" ]; then
+            echo "The following files are not gofmt-formatted:"
+            echo "$unformatted"
+            exit 1
+          fi
+
+      - name: Run go vet
+        run: go vet ./...
+
+      - name: Run staticcheck
+        run: |
+          go install honnef.co/go/tools/cmd/staticcheck@v0.8.2
+          "$(go env GOPATH)/bin/staticcheck" ./...
+
+  e2e:
+    name: E2E (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    env:
+      BK_REQUIRE_E2E: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Locate Chrome
+        shell: bash
+        run: |
+          chrome=""
+          for candidate in \
+            "$(command -v google-chrome 2>/dev/null || true)" \
+            "$(command -v google-chrome-stable 2>/dev/null || true)" \
+            "$(command -v chromium 2>/dev/null || true)" \
+            "$(command -v chromium-browser 2>/dev/null || true)" \
+            "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+            "/Applications/Chromium.app/Contents/MacOS/Chromium"; do
+            if [ -n "$candidate" ] && [ -x "$candidate" ]; then
+              chrome="$candidate"
+              break
+            fi
+          done
+          if [ -z "$chrome" ]; then
+            echo "::error::Chrome/Chromium not found on this runner"
+            exit 1
+          fi
+          "$chrome" --version
+          echo "BK_CHROME=$chrome" >> "$GITHUB_ENV"
+
+      - name: Run tests with E2E
+        shell: bash
+        run: |
+          # GitHub's Linux runners are containers-like enough that Chrome may
+          # need --no-sandbox. Keep it CI/test-only.
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            export BK_E2E_NO_SANDBOX=1
+          fi
+          go test -race -shuffle=on -count=1 -timeout=10m ./...
